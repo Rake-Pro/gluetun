@@ -3,7 +3,8 @@
 # gluetun built from the upstream release tag on a current Go toolchain, with
 # the final stage on the shared Alpine base. Upstream only rebuilds its tagged
 # images on release, so the Alpine packages and Go standard library in the
-# upstream tag age between releases; this image moves both every week.
+# upstream tag age between releases; this image moves both every week, and
+# bumps the Go modules Trivy flags (see the RUN below).
 # Differences from upstream: no legacy OpenVPN 2.5 package (it comes from the
 # Alpine 3.17 repository and is unpatched); OpenVPN 2.6 from the current
 # Alpine release is kept. The environment defaults below are upstream's,
@@ -15,6 +16,12 @@ RUN apk add --no-cache git
 WORKDIR /src
 RUN git clone --depth 1 --branch "${VERSION}" https://github.com/qdm12/gluetun.git . \
     && go mod download
+# Upstream pins these modules in go.mod at the tag and only moves them on its
+# next release; the 2026-11-06 scan of the pure tag build had 20 HIGH findings
+# in them (x/crypto, x/net, x/text, klauspost/compress). Move them to their
+# current releases before building; the application code is unchanged.
+RUN go get golang.org/x/crypto@latest golang.org/x/net@latest golang.org/x/text@latest github.com/klauspost/compress@latest \
+    && go mod tidy
 ENV CGO_ENABLED=0
 RUN commit="$(git rev-parse --short HEAD)" \
     && created="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \

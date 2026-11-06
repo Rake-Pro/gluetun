@@ -52,5 +52,5 @@ docker run -d --name gluetun \
 ## Notes
 
 - Runs as root with `NET_ADMIN`, as upstream requires for the tunnel and firewall.
-- Built from the upstream release tag with the Go toolchain pinned in the Dockerfile; Dependabot bumps the Go image and the base digest weekly.
+- Built from the upstream release tag with the Go toolchain pinned in the Dockerfile; Dependabot bumps the Go image and the base digest weekly. Four Go modules (x/crypto, x/net, x/text, klauspost/compress) are moved to their current releases at build time because upstream only bumps them on release.
 - The legacy OpenVPN 2.5 binary (Alpine 3.17 package upstream) is not included; `OPENVPN_VERSION=2.6` is the default and the only supported value here.
