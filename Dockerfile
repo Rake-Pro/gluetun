@@ -31,7 +31,7 @@ RUN commit="$(git rev-parse --short HEAD)" \
         -X 'main.commit=${commit}' \
         " -o /gluetun-entrypoint cmd/gluetun/main.go
 
-FROM ghcr.io/rake-pro/alpine-base:1.0@sha256:f62113d237739786f9b4419271e4625f509374576b50c8cb8ea4fc882952d168
+FROM ghcr.io/rake-pro/alpine-base:1.0@sha256:dc3ee9f773b64708750783e81c9f9a0071194f56e40cd2d3f3e6fa139ec1dc46
 ARG VERSION
 LABEL org.opencontainers.image.source="https://github.com/Rake-Pro/gluetun" \
       org.opencontainers.image.version="${VERSION}" \
