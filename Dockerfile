@@ -10,7 +10,7 @@
 # Alpine release is kept. The environment defaults below are upstream's,
 # verbatim, so configuration is unchanged. Runs as root: the VPN tunnel and
 # firewall need NET_ADMIN.
-FROM docker.io/library/golang:1.26-alpine3.23 AS build
+FROM docker.io/library/golang:1.27-alpine3.23 AS build
 ARG VERSION="v3.41.3"
 RUN apk add --no-cache git
 WORKDIR /src
